@@ -35,7 +35,8 @@ export async function authenticateAndLoad(code: string) {
             return {
                 success: true,
                 data: menuData,
-                restaurantName: tenant.name
+                restaurantName: tenant.name,
+                tenantId: tenant.id
             };
         } else {
             return { error: 'Invalid access code.' };

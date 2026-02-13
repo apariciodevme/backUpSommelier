@@ -6,7 +6,7 @@ import { motion } from 'framer-motion';
 import { RestaurantData } from '@/types/menu';
 
 interface LoginScreenProps {
-    onLogin: (data: RestaurantData, name: string) => void;
+    onLogin: (data: RestaurantData, name: string, tenantId?: string) => void;
 }
 
 export default function LoginScreen({ onLogin }: LoginScreenProps) {
@@ -34,7 +34,7 @@ export default function LoginScreen({ onLogin }: LoginScreenProps) {
         const result = await authenticateAndLoad(code); // Server Action
 
         if (result.success && result.data) {
-            onLogin(result.data, result.restaurantName || "Sommelier");
+            onLogin(result.data, result.restaurantName || "Sommelier", result.tenantId);
         } else {
             setError(result?.error || 'Invalid code');
             setIsLoading(false);
@@ -66,8 +66,8 @@ export default function LoginScreen({ onLogin }: LoginScreenProps) {
                         <div
                             key={i}
                             className={`w-4 h-4 rounded-full border transition-all duration-300 ${i < code.length
-                                    ? 'bg-[#1d1d1f] border-[#1d1d1f]'
-                                    : 'border-[#d1d1d6] bg-transparent'
+                                ? 'bg-[#1d1d1f] border-[#1d1d1f]'
+                                : 'border-[#d1d1d6] bg-transparent'
                                 }`}
                         />
                     ))}

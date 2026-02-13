@@ -51,15 +51,23 @@ export default function SommelierApp() {
         <div className="min-h-screen bg-background text-foreground font-sans flex flex-col items-center py-12 px-4 sm:px-6 lg:px-8 transition-colors duration-500">
             {/* Minimal Header */}
             <header className="mb-12 text-center space-y-2 sticky top-0 z-40 py-4 w-full backdrop-blur-xl bg-background/80 border-b border-white/20">
-                <button
-                    onClick={() => {
-                        setMenuData(null);
-                        setRestaurantName("Drops.");
-                    }}
-                    className="absolute right-0 top-1/2 -translate-y-1/2 text-xs font-medium bg-secondary/80 hover:bg-secondary px-3 py-1.5 rounded-full text-foreground transition-all duration-200"
-                >
-                    Switch
-                </button>
+                <div className="absolute right-0 top-1/2 -translate-y-1/2 flex items-center gap-2 pr-4">
+                    <a
+                        href="/admin"
+                        className="text-xs font-medium text-muted-foreground hover:text-foreground transition-all duration-200"
+                    >
+                        Admin
+                    </a>
+                    <button
+                        onClick={() => {
+                            setMenuData(null);
+                            setRestaurantName("Drops.");
+                        }}
+                        className="text-xs font-medium bg-secondary/80 hover:bg-secondary px-3 py-1.5 rounded-full text-foreground transition-all duration-200"
+                    >
+                        Switch
+                    </button>
+                </div>
                 <h1 className="text-3xl font-semibold tracking-tight text-foreground">
                     {restaurantName}
                 </h1>
