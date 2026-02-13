@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import { authenticateAndLoad } from '../actions/auth';
 import { motion } from 'framer-motion';
 import { RestaurantData } from '@/types/menu';
+import { saveSession } from '@/app/lib/session';
 
 interface LoginScreenProps {
     onLogin: (data: RestaurantData, name: string, tenantId?: string) => void;
@@ -34,6 +35,13 @@ export default function LoginScreen({ onLogin }: LoginScreenProps) {
         const result = await authenticateAndLoad(code); // Server Action
 
         if (result.success && result.data) {
+            if (result.tenantId) {
+                saveSession({
+                    tenantId: result.tenantId,
+                    restaurantName: result.restaurantName || "Sommelier",
+                    menuData: result.data
+                });
+            }
             onLogin(result.data, result.restaurantName || "Sommelier", result.tenantId);
         } else {
             setError(result?.error || 'Invalid code');

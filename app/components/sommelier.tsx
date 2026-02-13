@@ -4,10 +4,19 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { RestaurantData, MenuItem } from '@/types/menu';
 import Footer from './Footer';
 import LoginScreen from './LoginScreen';
+import { getSession, clearSession } from '@/app/lib/session';
 
 export default function SommelierApp() {
     const [menuData, setMenuData] = useState<RestaurantData | null>(null);
     const [restaurantName, setRestaurantName] = useState("Drops.");
+
+    useEffect(() => {
+        const session = getSession();
+        if (session) {
+            setMenuData(session.menuData);
+            setRestaurantName(session.restaurantName);
+        }
+    }, []);
 
     const handleLogin = (data: RestaurantData, name: string) => {
         setMenuData(data);
@@ -60,6 +69,7 @@ export default function SommelierApp() {
                     </a>
                     <button
                         onClick={() => {
+                            clearSession();
                             setMenuData(null);
                             setRestaurantName("Drops.");
                         }}

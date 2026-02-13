@@ -1,29 +1,37 @@
-export interface WinePairing {
-    name: string;
-    vintage: string;
-    price: string;
-    note: string;
-    grape: string;
-}
+import { z } from 'zod';
 
-export interface Pairings {
-    byGlass: WinePairing;
-    midRange: WinePairing;
-    exclusive: WinePairing;
-}
+export const WinePairingSchema = z.object({
+    name: z.string(),
+    vintage: z.string(),
+    price: z.string(),
+    note: z.string(),
+    grape: z.string()
+});
 
-export interface MenuItem {
-    dish: string;
-    price: number | string;
-    pairings: Pairings;
-}
+export const PairingsSchema = z.object({
+    byGlass: WinePairingSchema,
+    midRange: WinePairingSchema,
+    exclusive: WinePairingSchema
+});
 
-export interface MenuCategory {
-    category: string;
-    items: MenuItem[];
-}
+export const MenuItemSchema = z.object({
+    dish: z.string(),
+    price: z.union([z.number(), z.string()]),
+    pairings: PairingsSchema
+});
 
-export interface RestaurantData {
-    restaurantName: string;
-    menu: MenuCategory[];
-}
+export const MenuCategorySchema = z.object({
+    category: z.string(),
+    items: z.array(MenuItemSchema)
+});
+
+export const RestaurantDataSchema = z.object({
+    restaurantName: z.string(),
+    menu: z.array(MenuCategorySchema)
+});
+
+export type WinePairing = z.infer<typeof WinePairingSchema>;
+export type Pairings = z.infer<typeof PairingsSchema>;
+export type MenuItem = z.infer<typeof MenuItemSchema>;
+export type MenuCategory = z.infer<typeof MenuCategorySchema>;
+export type RestaurantData = z.infer<typeof RestaurantDataSchema>;
